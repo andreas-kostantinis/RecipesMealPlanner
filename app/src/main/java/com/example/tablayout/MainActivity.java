@@ -1,5 +1,7 @@
 package com.example.tablayout;
 
+import static com.example.tablayout.SharedPreferenceManager.TOKEN;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements TabLayoutMediator
         titles.add("calories");
         setViewPagerAdapter();
 
+        SharedPreferenceManager.getStringValue(this,TOKEN);
+
         new TabLayoutMediator(tabLayout,viewPager,  this).attach();
 
     }
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements TabLayoutMediator
         viewPager.setAdapter(vpAdapter);
 
     }
+
 
     @Override
     public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
