@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TabLayout">
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Launcher"
