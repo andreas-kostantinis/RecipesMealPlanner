@@ -1,4 +1,4 @@
-package com.example.tablayout;
+package com.example.tablayout.activities;
 
 import static com.example.tablayout.SharedPreferenceManager.TOKEN;
 
@@ -7,7 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.tablayout.R;
+import com.example.tablayout.SharedPreferenceManager;
 
 public class Launcher extends AppCompatActivity {
 

@@ -1,18 +1,20 @@
-package com.example.tablayout;
+package com.example.tablayout.activities;
 
 import static com.example.tablayout.SharedPreferenceManager.TOKEN;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 
+import com.example.tablayout.R;
+import com.example.tablayout.SharedPreferenceManager;
+import com.example.tablayout.VPAdapter;
+import com.example.tablayout.fragments.FragmentCalories;
+import com.example.tablayout.fragments.FragmentMealPlanner;
+import com.example.tablayout.fragments.FragmentRecipies;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -48,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements TabLayoutMediator
         VPAdapter vpAdapter = new VPAdapter(this);
         ArrayList<Fragment>  fragmentList = new ArrayList<>();
 
-        fragmentList.add(new Fragment1());
-        fragmentList.add(new Fragment2());
-        fragmentList.add(new Fragment3());
+        fragmentList.add(new FragmentRecipies());
+        fragmentList.add(new FragmentMealPlanner());
+        fragmentList.add(new FragmentCalories());
 
         vpAdapter.setData(fragmentList);
         viewPager.setAdapter(vpAdapter);
