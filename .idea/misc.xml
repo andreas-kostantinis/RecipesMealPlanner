@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/drawable/baseline_keyboard_arrow_left_grey_300_24dp.xml" value="0.2703125" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/activity_login.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/fragment_1.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/fragment_2.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/fragment_3.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/fragment_calories.xml" value="0.24954710144927536" />
+        <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/fragment_meal_planner.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/fragment_recipes.xml" value="0.24954710144927536" />
         <entry key="..\:/Users/andre/AndroidStudioProjects/TabLayout/app/src/main/res/layout/recipe_item.xml" value="0.24954710144927536" />
       </map>
