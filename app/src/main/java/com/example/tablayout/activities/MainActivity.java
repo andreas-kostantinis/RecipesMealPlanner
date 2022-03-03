@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.tablayout.R;
 import com.example.tablayout.SharedPreferenceManager;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements TabLayoutMediator
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     ArrayList<String> titles;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements TabLayoutMediator
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+         getMenuInflater().inflate(R.menu.options_menu,menu);
+         MenuItem item = menu.findItem(R.id.translate_menu);
+
+
+        return true;
+    }
 
     @Override
     public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {

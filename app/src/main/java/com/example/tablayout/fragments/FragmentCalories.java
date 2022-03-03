@@ -20,7 +20,7 @@ public class FragmentCalories extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calories, container, false);
+        View root = inflater.inflate(R.layout.fragment_meal_planner, container, false);
+        return root;
     }
 }

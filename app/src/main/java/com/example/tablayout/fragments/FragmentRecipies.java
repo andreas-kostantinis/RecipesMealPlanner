@@ -1,5 +1,6 @@
 package com.example.tablayout.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.example.tablayout.R;
 import com.example.tablayout.RecipesAdapter;
@@ -28,6 +31,7 @@ public class FragmentRecipies extends Fragment {
     private FirebaseFirestore firestore;
     private RecyclerView recyclerRecipes;
     private ArrayList<Recipe> recipes =  new ArrayList<>();
+    private Spinner spinner;
 
 
     public FragmentRecipies(){
@@ -40,9 +44,20 @@ public class FragmentRecipies extends Fragment {
 
 
         View rootView = inflater.inflate(R.layout.fragment_recipes, container, false);
+        spinner = rootView.findViewById(R.id.spinner_tags);
         recyclerRecipes =  rootView.findViewById(R.id.recycler_recipes);
         recyclerRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerRecipes.setHasFixedSize(true);
+
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.tags,
+                R.layout.spinner_text
+        );
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_inner_text);
+
+
+
 
         firestore = FirebaseFirestore.getInstance();
 
@@ -66,6 +81,8 @@ public class FragmentRecipies extends Fragment {
 
                     }
                 });
+
+
 
 
 
