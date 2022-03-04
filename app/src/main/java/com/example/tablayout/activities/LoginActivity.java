@@ -1,6 +1,6 @@
 package com.example.tablayout.activities;
 
-import static com.example.tablayout.SharedPreferenceManager.TOKEN;
+import static com.example.tablayout.utils.SharedPreferenceManager.TOKEN;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.tablayout.R;
-import com.example.tablayout.SharedPreferenceManager;
+import com.example.tablayout.utils.SharedPreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
