@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "52042735019",
+    "project_id": "tablayout-cd5a4",
+    "storage_bucket": "tablayout-cd5a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52042735019:android:5befc89e50ed3af0a406ee",
+        "android_client_info": {
+          "package_name": "com.example.tablayout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52042735019-1717hu9vgbjo3rv52pv6u39olc25sint.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABYCBu56zXUDUrTfR9k9-J--Rd7Ky3JgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52042735019-1717hu9vgbjo3rv52pv6u39olc25sint.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
