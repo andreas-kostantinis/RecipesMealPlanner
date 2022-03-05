@@ -14,8 +14,8 @@
 
       <ImageView
           android:id="@+id/img_arrow_left"
-          android:layout_width="45dp"
-          android:layout_height="45dp"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
           android:layout_alignParentStart="true"
           android:src="@drawable/baseline_keyboard_arrow_left_black_24dp"
           android:background="?attr/selectableItemBackgroundBorderless"
@@ -27,21 +27,18 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
-          android:layout_centerHorizontal="true"
           android:textColor="@color/white"
-          android:textSize="20sp"/>
+          android:textSize="16sp" />
 
       <ImageView
           android:id="@+id/img_arrow_right"
-          android:layout_width="45dp"
-          android:layout_height="45dp"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
           android:layout_alignParentEnd="true"
           android:src="@drawable/baseline_keyboard_arrow_right_white_24dp"
           android:background="?attr/selectableItemBackgroundBorderless"
           android:clickable="true"
           android:focusable="true" />
-
-
 
 
    </RelativeLayout>

@@ -1,5 +1,8 @@
 package com.example.tablayout;
 
+import android.util.SparseArray;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -15,8 +18,9 @@ import java.util.Objects;
 
 public class VPAdapter extends FragmentStateAdapter {
 
-    private  ArrayList<Fragment> fragmentArrayList ;
-    private  ArrayList<String> fragmentTitle ;
+    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private ArrayList<Fragment> fragmentArrayList ;
+    private ArrayList<String> fragmentTitle ;
 
     public VPAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -37,6 +41,10 @@ public class VPAdapter extends FragmentStateAdapter {
     public void addFragment(Fragment fragment, String title){
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return fragmentArrayList.get(position);
     }
 
 

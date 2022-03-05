@@ -1,12 +1,17 @@
 <resources>
-    <string name="app_name">TabLayout</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Meal Planner</string>
 
 
-    <string-array name="tags">
-        <item>Breakfast</item>
-        <item>Lunch</item>
-        <item>Dinner</item>
-    </string-array>
+    <string name="recipes">Recipes</string>
+    <string name="meal_planner">Meal Planner</string>
+    <string name="calories">Calories</string>
+    <string name="select_a_language">Select language</string>
+    <string name="ok">OK</string>
+    <string name="select_meal">Select meal</string>
+    <string name="add">Add</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+
+
 </resources>

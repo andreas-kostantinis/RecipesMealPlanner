@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Meal Planner GR</string>
+
+    <string name="recipes">Συνταγες</string>
+    <string name="meal_planner">Πλανο Γευματων</string>
+    <string name="calories">Θερμιδες</string>
+    <string name="select_a_language">Διάλεξε γλώσσα</string>
+    <string name="select_meal">Διάλεξε γεύμα</string>
+    <string name="ok">Εντάξει</string>
+    <string name="add">Πρόσθεσε</string>
+    <string name="breakfast">Πρωινό</string>
+    <string name="lunch">Μεσημεριανό</string>
+    <string name="dinner">Βραδυνό</string>
+
+</resources>

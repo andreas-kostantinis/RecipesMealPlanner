@@ -1,18 +1,19 @@
 package com.example.tablayout.fragments;
 
-import android.annotation.SuppressLint;
+import static com.example.tablayout.utils.Constants.Meals;
+
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tablayout.R;
 import com.example.tablayout.RecipesAdapter;
@@ -26,15 +27,21 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 
-public class FragmentRecipies extends Fragment {
+public class FragmentRecipes extends Fragment implements RecipesAdapter.AddListener{
 
     private FirebaseFirestore firestore;
     private RecyclerView recyclerRecipes;
     private ArrayList<Recipe> recipes =  new ArrayList<>();
-    private Spinner spinner;
+    private int type_selected = 0;
+    private int selected_recipe = -1;
+    private MealAddedListener listener;
 
+    public interface MealAddedListener {
+        void onMealAdded(Recipe selectedRecipe, int mealType);
+    }
 
-    public FragmentRecipies(){
+    public FragmentRecipes(MealAddedListener listener){
+        this.listener = listener;
 
     }
 
@@ -44,20 +51,9 @@ public class FragmentRecipies extends Fragment {
 
 
         View rootView = inflater.inflate(R.layout.fragment_recipes, container, false);
-        spinner = rootView.findViewById(R.id.spinner_tags);
         recyclerRecipes =  rootView.findViewById(R.id.recycler_recipes);
         recyclerRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerRecipes.setHasFixedSize(true);
-
-        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(
-                getContext(),
-                R.array.tags,
-                R.layout.spinner_text
-        );
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_inner_text);
-
-
-
 
         firestore = FirebaseFirestore.getInstance();
 
@@ -77,17 +73,42 @@ public class FragmentRecipies extends Fragment {
                             recipes.add(recipe);
 
                         }
-                        recyclerRecipes.setAdapter(new RecipesAdapter(recipes,getContext()));
+                        recyclerRecipes.setAdapter(new RecipesAdapter(recipes,getContext(), FragmentRecipes.this));
 
                     }
                 });
 
 
-
-
-
-
         return rootView;
 
     }
+
+    private void presentDialogForType() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
+        dialogBuilder.setTitle(requireContext().getResources().getString(R.string.select_a_language))
+                .setSingleChoiceItems(Meals, type_selected, (dialogInterface, i) -> {
+                    type_selected = i;
+                })
+                .setPositiveButton(requireContext().getResources().getString(R.string.ok), (dialogInterface, i) -> {
+                    if(selected_recipe != -1) {
+                        addRecipeToMeal(recipes.get(selected_recipe), type_selected);
+                    }
+                    dialogInterface.dismiss();
+                });
+        dialogBuilder.create().show();
+    }
+
+    private void addRecipeToMeal(Recipe selectedRecipe, int mealType) {
+        //kanw add sti vasi edw! oxi edw telika giati theloume kai date!!!!
+        listener.onMealAdded(selectedRecipe, mealType);
+
+    }
+
+    @Override
+    public void onAddClick(int position) {
+        //theloume to position gia na valoume auto to recipe sto meal pou tha epileksei o xristis
+        selected_recipe = position;
+        presentDialogForType();
+    }
+
 }
