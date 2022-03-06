@@ -12,5 +12,6 @@
     <string name="breakfast">Πρωινό</string>
     <string name="lunch">Μεσημεριανό</string>
     <string name="dinner">Βραδυνό</string>
+    <string name="no_meals">Δεν υπάρχουν γεύματα για αυτή τη μέρα</string>
 
 </resources>

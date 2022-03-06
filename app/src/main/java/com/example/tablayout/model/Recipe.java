@@ -2,7 +2,9 @@ package com.example.tablayout.model;
 
 import java.io.Serializable;
 
-public class Recipe implements Serializable {
+import io.realm.RealmObject;
+
+public class Recipe extends RealmObject implements Serializable {
 
     private String name;
     private String description;
