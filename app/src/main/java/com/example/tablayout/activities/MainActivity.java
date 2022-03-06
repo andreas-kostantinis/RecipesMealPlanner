@@ -9,6 +9,10 @@ import static com.example.tablayout.utils.Constants.greek;
 import static com.example.tablayout.utils.SharedPreferenceManager.TOKEN;
 
 import android.content.res.Resources;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,10 +39,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import io.realm.Realm;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements
         TabLayoutMediator.TabConfigurationStrategy,
@@ -53,6 +59,58 @@ public class MainActivity extends AppCompatActivity implements
     private int lang_selected = 0;
     private VPAdapter vpAdapter;
 
+    private SensorManager sm = null;
+    private Sensor brightness, accelerometer, gyroscope;
+
+    SensorEventListener sel = new SensorEventListener(){
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+        public void onSensorChanged(SensorEvent event) {
+            if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+                float light = event.values[0];
+                brightness(light);
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER || event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                Timber.e("X: "+event.values[0]+" Y: "+event.values[1]+" Z: "+event.values[2]);
+            }
+        }
+    };
+
+    private void brightness(float light) {
+
+        if(light == 0) {
+            Timber.e("Pitch black");
+        }
+        else if(light >=1 && light<=10) {
+            Timber.e("Dark");
+        }
+        else if(light >=11 && light<=50) {
+            Timber.e("Grey");
+        }
+        else if(light >=51 && light<=5000) {
+            Timber.e("Normal");
+        }
+        else if(light >=5001 && light<=25000) {
+            Timber.e("Incredibly bright");
+        }
+        else{
+            Timber.e("This light will blind you");
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sm.unregisterListener(sel);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sm.registerListener(sel, brightness, SensorManager.SENSOR_DELAY_NORMAL);
+        sm.registerListener(sel, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sm.registerListener(sel, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +126,12 @@ public class MainActivity extends AppCompatActivity implements
         configureLanguage();
 
         SharedPreferenceManager.getStringValue(this,TOKEN);
+
+        sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+        brightness = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
+        accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        gyroscope = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
 
         new TabLayoutMediator(tabLayout,viewPager,  this).attach();
 
