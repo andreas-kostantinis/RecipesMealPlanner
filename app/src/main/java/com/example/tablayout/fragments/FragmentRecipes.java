@@ -69,6 +69,7 @@ public class FragmentRecipes extends Fragment implements RecipesAdapter.AddListe
                             recipe.setName(doc.getString("Name"));
                             recipe.setDescription(doc.getString("description"));
                             recipe.setImage(doc.getString("imageUrl"));
+                            recipe.setCalories(doc.getLong("calories").intValue());
 
 
                             recipes.add(recipe);

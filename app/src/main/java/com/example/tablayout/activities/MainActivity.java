@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         ((FragmentMealPlanner) vpAdapter.getRegisteredFragment(1)).presentData();
+        ((FragmentCalories) vpAdapter.getRegisteredFragment(2)).setData();
 
 
     }

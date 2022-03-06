@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Meal Planner GR</string>
+    <string name="default_notification_channel_id">1234</string>
 
     <string name="recipes">Συνταγες</string>
     <string name="meal_planner">Πλανο Γευματων</string>
