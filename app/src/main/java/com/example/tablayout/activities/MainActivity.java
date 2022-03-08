@@ -9,10 +9,15 @@ import static com.example.tablayout.utils.Constants.greek;
 import static com.example.tablayout.utils.SharedPreferenceManager.TOKEN;
 
 import android.content.res.Resources;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +30,8 @@ import com.example.tablayout.VPAdapter;
 import com.example.tablayout.fragments.FragmentCalories;
 import com.example.tablayout.fragments.FragmentMealPlanner;
 import com.example.tablayout.fragments.FragmentRecipes;
+import com.example.tablayout.model.MealDay;
+import com.example.tablayout.model.MealType;
 import com.example.tablayout.model.Recipe;
 import com.example.tablayout.utils.LocaleHelper;
 import com.example.tablayout.utils.SharedPreferenceManager;
@@ -32,7 +39,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import io.realm.Realm;
+import io.realm.exceptions.RealmPrimaryKeyConstraintException;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements
         TabLayoutMediator.TabConfigurationStrategy,
@@ -47,6 +59,58 @@ public class MainActivity extends AppCompatActivity implements
     private int lang_selected = 0;
     private VPAdapter vpAdapter;
 
+    private SensorManager sm = null;
+    private Sensor brightness, accelerometer, gyroscope;
+
+    SensorEventListener sel = new SensorEventListener(){
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+        public void onSensorChanged(SensorEvent event) {
+            if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+                float light = event.values[0];
+                brightness(light);
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER || event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                Timber.e("X: "+event.values[0]+" Y: "+event.values[1]+" Z: "+event.values[2]);
+            }
+        }
+    };
+
+    private void brightness(float light) {
+
+        if(light == 0) {
+            Timber.e("Pitch black");
+        }
+        else if(light >=1 && light<=10) {
+            Timber.e("Dark");
+        }
+        else if(light >=11 && light<=50) {
+            Timber.e("Grey");
+        }
+        else if(light >=51 && light<=5000) {
+            Timber.e("Normal");
+        }
+        else if(light >=5001 && light<=25000) {
+            Timber.e("Incredibly bright");
+        }
+        else{
+            Timber.e("This light will blind you");
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sm.unregisterListener(sel);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sm.registerListener(sel, brightness, SensorManager.SENSOR_DELAY_NORMAL);
+        sm.registerListener(sel, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sm.registerListener(sel, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +126,12 @@ public class MainActivity extends AppCompatActivity implements
         configureLanguage();
 
         SharedPreferenceManager.getStringValue(this,TOKEN);
+
+        sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+        brightness = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
+        accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        gyroscope = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
 
         new TabLayoutMediator(tabLayout,viewPager,  this).attach();
 
@@ -155,10 +225,77 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onAddToDBCalled(Recipe selectedRecipe, int mealType, String date) {
+    public void onAddToDBCalled(Recipe selectedRecipe, int selectedMealType, String date) {
         //exw recipe, meal type kai date opote kanw add sti vasi
         Log.e("ADD RECIPE", ": "+selectedRecipe.getName());
-        Log.e("MEAL TYPE", ": "+Meals[mealType]);
+        Log.e("MEAL TYPE", ": "+Meals[selectedMealType]);
         Log.e("DATE", ": "+date);
+
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(@NonNull Realm realm) {
+                    try {
+                        MealDay mealDay = realm.where(MealDay.class).equalTo(MealDay.PROPERTY_DATE, date).findFirst();
+
+                        if(mealDay == null) {
+                            mealDay = realm.createObject(MealDay.class);
+                            mealDay.setDate(date);
+                        }
+
+                        MealType mealType = null;
+
+                        for(int i = 0; i < mealDay.getMeals().size() ; i++) {
+                            if(mealDay.getMeals().get(i).getType().equals(Meals[selectedMealType])) {
+                                mealType = mealDay.getMeals().get(i);
+                            }
+                        }
+
+                        if(mealType == null){
+                            mealType = realm.createObject(MealType.class);
+                            mealType.setType(Meals[selectedMealType]);
+                        }
+
+                        Recipe recipe = realm.createObject(Recipe.class);
+                        recipe.setName(selectedRecipe.getName());
+                        recipe.setDescription(selectedRecipe.getDescription());
+                        recipe.setImage(selectedRecipe.getImage());
+                        recipe.setCalories(selectedRecipe.getCalories());
+                        recipe.setInstructions(selectedRecipe.getInstructions());
+                        recipe.setType(selectedRecipe.getType());
+
+                        mealType.setRecipe(recipe);
+
+                        mealDay.addMeal(mealType);
+
+                        realm.copyToRealm(mealType);
+                        realm.copyToRealm(mealDay);
+
+
+                        //DEBUG
+//                        MealDay mealDayTest = realm.where(MealDay.class).equalTo(MealDay.PROPERTY_DATE, date).findFirst();
+//
+//                        Log.e("TEST: ",""+mealDayTest.getDate());
+//                        for(int i = 0 ; i < mealDayTest.getMeals().size() ; i++) {
+//                            Log.e("Type: ",""+mealDayTest.getMeals().get(i).getType());
+//                            Log.e("Name: ",""+mealDayTest.getMeals().get(i).getRecipe().getName());
+//                        }
+
+
+
+                    } catch (RealmPrimaryKeyConstraintException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Primary Key exists, Press Update instead", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+        ((FragmentMealPlanner) vpAdapter.getRegisteredFragment(1)).presentData();
+        ((FragmentCalories) vpAdapter.getRegisteredFragment(2)).setData();
+
+
     }
+
+
 }

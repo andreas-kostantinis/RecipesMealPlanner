@@ -6,6 +6,7 @@ public class Constants {
     public static String enLang = "en";
     public static String english = "English";
     public static String greek = "Ελληνικά";
+
     public static String breakfast = "Breakfast";
     public static String lunch = "Lunch";
     public static String dinner = "Dinner";

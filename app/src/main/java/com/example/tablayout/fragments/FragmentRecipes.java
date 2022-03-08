@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tablayout.R;
 import com.example.tablayout.RecipesAdapter;
 import com.example.tablayout.model.Recipe;
+import com.example.tablayout.utils.LocaleHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -68,12 +69,13 @@ public class FragmentRecipes extends Fragment implements RecipesAdapter.AddListe
                             recipe.setName(doc.getString("Name"));
                             recipe.setDescription(doc.getString("description"));
                             recipe.setImage(doc.getString("imageUrl"));
+                            recipe.setCalories(doc.getLong("calories").intValue());
 
 
                             recipes.add(recipe);
 
                         }
-                        recyclerRecipes.setAdapter(new RecipesAdapter(recipes,getContext(), FragmentRecipes.this));
+                        recyclerRecipes.setAdapter(new RecipesAdapter(recipes, getContext(), FragmentRecipes.this));
 
                     }
                 });
