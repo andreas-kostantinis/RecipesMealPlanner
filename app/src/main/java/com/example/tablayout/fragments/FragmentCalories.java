@@ -54,7 +54,11 @@ public class FragmentCalories extends Fragment {
     private Calendar calendar;
 
     public FragmentCalories(){
+
         //this is a constructor- andreas comment dsa
+
+        //this is a constructor -asdadasdadadasda
+
     }
 
     @Override
