@@ -54,7 +54,7 @@ public class FragmentCalories extends Fragment {
     private Calendar calendar;
 
     public FragmentCalories(){
-        //this is a constructor- andreas comment
+        //this is a constructor- andreas comment dsa
     }
 
     @Override
