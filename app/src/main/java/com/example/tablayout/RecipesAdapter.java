@@ -102,7 +102,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
         }
     }
 
-
+    // o adapter milaei me ta fragment
     public interface AddListener {
         void onAddClick(int position);
     }

@@ -52,7 +52,9 @@ public class FragmentMealPlanner extends Fragment {
     private Recipe selectedRecipe;
     private int mealType;
     private MealPlannerAdapter adapter;
+    //endiamesh lista gia na perasei dedomena ston adapter giati ta realm objects den tou kanoun
     private ArrayList<MealType> recipes = new ArrayList<>();
+    //eikonidio kai visible , an exw dedomena to emfanizw alliws oxi
     private RelativeLayout relNoMeals;
     private TextView tvNoMeals;
 

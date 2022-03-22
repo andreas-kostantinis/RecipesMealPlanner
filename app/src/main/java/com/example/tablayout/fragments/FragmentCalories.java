@@ -109,6 +109,7 @@ public class FragmentCalories extends Fragment {
                 @Override
                 public void execute(@NonNull Realm realm) {
                     try {
+                        //erwthma sth vash gia ta geumata ths sygkekrimenhs hmeras
                         MealDay mealDay = realm.where(MealDay.class).equalTo(MealDay.PROPERTY_DATE, dateFormat.format(calendar.getTime())).findFirst();
 
 
@@ -170,7 +171,7 @@ public class FragmentCalories extends Fragment {
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
         chartCalories.setData(data);
 
         // undo all highlights

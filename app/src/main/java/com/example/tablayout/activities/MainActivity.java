@@ -220,10 +220,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onMealAdded(Recipe selectedRecipe, int mealType) {
+        //lew ston viewpager na paei ston mealplanner
         viewPager.setCurrentItem(1);
         ((FragmentMealPlanner) vpAdapter.getRegisteredFragment(1)).selectDateAndAddToDB(selectedRecipe, mealType);
     }
 
+    //einai to teliko stadio exw recipe typo kai date
     @Override
     public void onAddToDBCalled(Recipe selectedRecipe, int selectedMealType, String date) {
         //exw recipe, meal type kai date opote kanw add sti vasi
@@ -236,21 +238,23 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void execute(@NonNull Realm realm) {
                     try {
+                        //fere mou (an yparxei) to mealday me vash to date pou exw
                         MealDay mealDay = realm.where(MealDay.class).equalTo(MealDay.PROPERTY_DATE, date).findFirst();
 
+                        //an den yparxei kane create kai vale hmeromhnia. Auto to object tha mpei sth vash
                         if(mealDay == null) {
                             mealDay = realm.createObject(MealDay.class);
                             mealDay.setDate(date);
                         }
-
+                        // thetw to null gia na yparxei h synthkh if giati an den yparxei xerw oti einai null
                         MealType mealType = null;
-
+                        //for gia na vrw an yparxei typos geymatos gia thn sygkekrimenh hmera
                         for(int i = 0; i < mealDay.getMeals().size() ; i++) {
                             if(mealDay.getMeals().get(i).getType().equals(Meals[selectedMealType])) {
                                 mealType = mealDay.getMeals().get(i);
                             }
                         }
-
+                       //an den yparxei to dhmioyrgw kai tou thetoume ton typo
                         if(mealType == null){
                             mealType = realm.createObject(MealType.class);
                             mealType.setType(Meals[selectedMealType]);
@@ -263,11 +267,11 @@ public class MainActivity extends AppCompatActivity implements
                         recipe.setCalories(selectedRecipe.getCalories());
                         recipe.setInstructions(selectedRecipe.getInstructions());
                         recipe.setType(selectedRecipe.getType());
-
+                        //vazw to recipe mesa sto mealType
                         mealType.setRecipe(recipe);
 
                         mealDay.addMeal(mealType);
-
+                        // save sth vash
                         realm.copyToRealm(mealType);
                         realm.copyToRealm(mealDay);
 
